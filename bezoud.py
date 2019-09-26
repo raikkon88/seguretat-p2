@@ -1,10 +1,9 @@
 import random
 from utils import generateRandomValue
 from utils import getNumber
+digits = 1000
 
-digits = 500000
-
-def euclides():
+def bezoud():
     print("algoritme d'euclides")
     print("--------------------")
     print("Entra si vols que s'autogenerin els numeros o si prefereixes entrar-los tu.")
@@ -29,14 +28,13 @@ def euclides():
     print("Calculem el MCD ...")
     print("")
     # Considerem a com a divident i b com a divisor
+    q = 0
+    p = 1
+    qact = 1
+    pact = 0
+
     while(a % b != 0):
+        
         tmp = b
         b = a % b 
         a = tmp
-
-    
-    print("El maxim comu divisor es el " + str(b))
-    
-
-
-euclides()
