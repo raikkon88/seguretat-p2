@@ -2,9 +2,21 @@ import random
 from utils import generateRandomValue
 from utils import getNumber
 
+
 digits = 500000
 
-def euclides():
+def sonCoprimers(a,b):
+    return euclides(a, b) == 1
+
+def euclides(a, b):
+    while(a % b != 0):
+        tmp = b
+        b = a % b 
+        a = tmp
+
+    return b
+
+def euclides_test():
     print("algoritme d'euclides")
     print("--------------------")
     print("Entra si vols que s'autogenerin els numeros o si prefereixes entrar-los tu.")
@@ -39,4 +51,4 @@ def euclides():
     
 
 
-euclides()
+#euclides()

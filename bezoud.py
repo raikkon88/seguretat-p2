@@ -3,7 +3,37 @@ from utils import generateRandomValue
 from utils import getNumber
 digits = 1000
 
-def bezoud():
+def bezoud(a, b):
+    ina = a
+    inb = b
+    qant = 0
+    pant = 1
+    qact = 1
+    pact = 0
+    iteration = 0
+
+    while(a % b != 0):
+        quo = a // b
+        qtmp = quo * qact + qant
+        ptmp = quo * pact + pant
+        qant = qact
+        pant = pact 
+        qact = qtmp
+        pact = ptmp
+
+        tmp = b
+        b = a % b 
+        a = tmp
+        iteration += 1
+
+    if(iteration % 2 == 0): 
+        pact *= -1
+    else: 
+        qact *= -1
+
+    return b, ina, inb, qact, pact
+
+def bezoud_test():
     print("algoritme d'euclides")
     print("--------------------")
     print("Entra si vols que s'autogenerin els numeros o si prefereixes entrar-los tu.")
@@ -16,25 +46,47 @@ def bezoud():
         a = generateRandomValue(random.randint(1, digits))
         b = generateRandomValue(random.randint(1, digits))
     else:    
+        print("The first number must be grather than the second!")
         a = getNumber("enter the first number: ")
         b = getNumber("enter the second number: ")
 
+    ina = a
+    inb = b
+
     print("Els nombres que s'utilitzen son : ")
+    print(ina)
+    print(inb)
     print("")
-    print(a)
-    print("")
-    print(b)
-    print("")
-    print("Calculem el MCD ...")
+    print("Calculem el MCD i la identitat de Bezoud...")
     print("")
     # Considerem a com a divident i b com a divisor
-    q = 0
-    p = 1
+    qant = 0
+    pant = 1
     qact = 1
     pact = 0
+    iteration = 0
 
     while(a % b != 0):
-        
+        quo = a // b
+        qtmp = quo * qact + qant
+        ptmp = quo * pact + pant
+        qant = qact
+        pant = pact 
+        qact = qtmp
+        pact = ptmp
+
         tmp = b
         b = a % b 
         a = tmp
+        iteration += 1
+
+    if(iteration % 2 == 0): 
+        pact *= -1
+    else: 
+        qact *= -1
+    print("MCD : " + str(b))
+    print("Q_i : " + str(qact))
+    print("P_i : " + str(pact))
+    print("Moreover, ... : " + str(b) + " = " + str(qact) + "*" + str(inb) + " + " + str(pact) + "*" + str(ina))
+
+#bezoud_test()

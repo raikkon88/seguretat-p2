@@ -1,4 +1,20 @@
+import math
 import random
+
+
+def potencia_modular_eficient(base, expo, p):
+# p>1
+# retorna (baseexpo) mod p
+    if expo == 0: # 0 elevat a 0 és 1
+        return 1
+    elif base==0:
+        return 0
+    else:
+        base_to_exp_div2 = potencia_modular_eficient(base, expo//2, p)
+        if expo%2 == 0:
+            return (base_to_exp_div2* base_to_exp_div2) % p
+        else:
+            return (base_to_exp_div2* base_to_exp_div2 * base) % p
 
 def getNumber(text):
     number = input(text)
@@ -17,3 +33,30 @@ def generateRandomValue(length):
         i += 1
 
     return number
+
+def esPrimer(p):
+    i = 1
+    while i < p and potencia_modular_eficient(i, p-1, p) == 1:
+        i += 1
+        
+    if i == p:
+        return True
+    else: 
+        return False
+
+
+def factors_primers(nombre): 
+    llista_fp = []
+    if nombre >= 2: 
+        d = 2
+        while d <= math.sqrt(nombre):
+            if nombre % d == 0: 
+                llista_fp.append(d)
+                nombre = nombre / d
+            else: 
+                d = d+1
+
+        llista_fp.append(int(nombre))
+
+    return llista_fp
+
