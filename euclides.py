@@ -6,9 +6,13 @@ from utils import getNumber
 digits = 500000
 
 def sonCoprimers(a,b):
+# a i b > 0
+# Retorna cert si a i b son coprimers
     return euclides(a, b) == 1
 
 def euclides(a, b):
+# a i b > 0
+# Retorna el MCD(a, b)
     while(a % b != 0):
         tmp = b
         b = a % b 
@@ -49,6 +53,3 @@ def euclides_test():
     
     print("El maxim comu divisor es el " + str(b))
     
-
-
-#euclides()

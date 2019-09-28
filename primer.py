@@ -1,6 +1,8 @@
 import math
 
 def primer(n):
+# n > 0
+# Retorna cert si n és primer, fals altrament
     if n < 2: 
         return False
     

@@ -17,6 +17,8 @@ def potencia_modular_eficient(base, expo, p):
             return (base_to_exp_div2* base_to_exp_div2 * base) % p
 
 def getNumber(text):
+# Mostra un text per pantalla
+# Recull un nombre per teclat i el retorna
     number = input(text)
     try:
         return int(number)
@@ -25,6 +27,7 @@ def getNumber(text):
         return getNumber(text)
 
 def generateRandomValue(length):
+# Genera un valor aleatori de length xifres
     number = random.randint(1, 9)
     i = 1
     while(i < length):
@@ -35,6 +38,8 @@ def generateRandomValue(length):
     return number
 
 def esPrimer(p):
+# p > 0
+# Retorna cert si p és primer, falç altrament
     i = 1
     while i < p and potencia_modular_eficient(i, p-1, p) == 1:
         i += 1
@@ -46,6 +51,8 @@ def esPrimer(p):
 
 
 def factors_primers(nombre): 
+# nombre > 0
+# Retorna el llistat de factors primers del nombre nombre
     llista_fp = []
     if nombre >= 2: 
         d = 2

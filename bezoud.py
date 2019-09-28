@@ -1,9 +1,15 @@
 import random
 from utils import generateRandomValue
 from utils import getNumber
-digits = 1000
 
 def bezoud(a, b):
+# a i b > 0
+# retorna per aquest ordre : 
+#   mcd(a,b)
+#   a que ens han passat com entrada
+#   b que ens han passat com entrada
+#   Q Pot ser negatiu
+#   P Pot ser negatiu
     ina = a
     inb = b
     qant = 0
