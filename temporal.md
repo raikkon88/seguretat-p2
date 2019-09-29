@@ -1,0 +1,54 @@
+
+
+```python
+import os
+import sys
+sys.path.append(os.getcwd())
+import time
+import matplotlib.pyplot as plt
+import numpy as np
+```
+
+
+
+
+```python
+from utils import getNextPrime
+from primer import primer
+from utils import generateRandomValue
+
+size = []
+times = []
+i = 1
+while i <= 7:
+    a = generateRandomValue(i)
+    # Obtenim el següent nombre primer de i xifres
+    a = getNextPrime(a)
+    # Un cop sé que és primer calcule què trigo en verificar-ho
+    start = time.time()
+    primerR = primer(a)
+    elapsed_time = time.time() - start
+    size.append(i)
+    times.append(elapsed_time)
+    i+=1
+
+plt.plot(size, times, label='linear')
+plt.legend()
+plt.show()
+```
+
+![](figures/temporal_3_1.png){#3 }\
+
+
+
+
+
+```python
+plt.plot(size, times, label='linear')
+plt.legend()
+plt.show()
+```
+
+![](figures/temporal_3_1.png){#3 }\
+
+

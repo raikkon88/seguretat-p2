@@ -49,6 +49,12 @@ def esPrimer(p):
     else: 
         return False
 
+def getNextPrime(start): 
+# start és on es comença a cercar el nombre
+# retorna el primer primer que troba a partir d'start incrementant en 1
+    while not esPrimer(start):
+        start += 1
+    return start
 
 def factors_primers(nombre): 
 # nombre > 0

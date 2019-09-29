@@ -95,4 +95,8 @@ def bezoud_test():
     print("P_i : " + str(pact))
     print("Moreover, ... : " + str(b) + " = " + str(qact) + "*" + str(inb) + " + " + str(pact) + "*" + str(ina))
 
+def print_bezoud_result(b, ina, inb, qact, pact):
+    print("Moreover, ... : " + str(b) + " = " + str(qact) + "*" + str(inb) + " + " + str(pact) + "*" + str(ina))
+
+
 #bezoud_test()

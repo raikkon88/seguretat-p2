@@ -1,0 +1,259 @@
+# Informe de la pràctica de Teoria de Números.
+
+**L'entrega conté :**
+
++ Codi font utilitzat en fitxers python amb extensió .py. 
++ Un informe on s'explica i especifica cada un dels exercicis que s'han reatlitzat. 
++ Gràfics corresponents.
+
+**Com s'ha realitzat la pràctica :**
+
+Tots els algoritmes ques es sol·liciten als diferents exercicis estan distribuïts en fitxers python. En general s'ha intentat fer un fitxer per exercici peró en alguns casos s'han agrupat diferens algoritmes dins d'un fitxer per mantenir la coherència en la implementació.
+
+El programa de proves està executat directament dins de l'informe, s'utilitza el software [pweave](http://mpastell.com/pweave/). S'utilitza un compilador de markdown que té la capacitat d'executar codi en python. Aquest compilador es pot trobar a la pàgina web de l'autor : [http://mpastell.com/pweave/](http://mpastell.com/pweave/). 
+
+**Mínims que es requereixen en el fitxer** 
+
+Carreguem les llibreries
+
+```{python3}
+import os
+import sys
+sys.path.append(os.getcwd())
+import time
+import matplotlib.pyplot as plt
+import numpy as np
+```
+
+**Generador de nombres** 
+
+Per poder generar nombres amb un tamany prou gran com per provar els diferents algoritmes s'han realitzat un parell de funcions que ens ho permeten. Aquestes funcions es poden trobar al fitxer utils.py.
+
+## Enunciat 2-a
+
+### 2-a: Feu un programa que donats dos enters (podeu considerar-los majors que 0) calculi el seu MCD usant l’algorisme d’Euclides. Comproveu (taula) com creix el seu cost conforme creix el nombre de dígits dels valors
+
+*L'algoritme d'euclides està imlementat al fitxer euclides.py d'aquest mateix directori.*
+
+En aquest exemple es generaran nombres de xifres significants per testejar l'algoritme. 
+
+```{python3}
+from utils import generateRandomValue
+from euclides import euclides
+```
+
+Primerament demostrem el funcionament de l'algoritme mitjançant alguna execució. 
+
+```{python3}
+print(euclides(48, 150))
+print(euclides(150, 48))
+print(euclides(405, 128))
+print(euclides(450, 360))
+print(euclides(30, 20))
+
+````
+
+Seguim per estudiar el cost en funció del nombre de bytes dels valors. 
+
+```{python3}
+size = []
+times = []
+
+i = 1000
+counter = 0
+while i < 50000: 
+
+    # Generem dos nombres aleatoris amb llargada i
+    a = generateRandomValue(i)
+    b = generateRandomValue(i)
+
+    # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+    start = time.time()
+    euclides(a, b)
+    
+    elapsed_time = time.time() - start
+    size.append(i)
+    times.append(elapsed_time)
+
+    i += 2000
+```
+
+Generem 25 valors d'entre 1000 a 50000 nombres escalant 2000 xifres per cada valor. Generem el gràfic amb els valors esmentats i els temps de càlcul en funció del nombre de xifres dels valors generats. A la part esquerra dels gràfic hi trobem el temps d'execució en segons mentre que a la part inferior el nombre de xifres que tenen els valors que se li passen a la funció euclides. 
+
+```{python3}
+plt.plot(size, times, label='linear')
+plt.legend()
+plt.show()
+```
+
+Podem veure com el comportament en funció del nombre de dígits del temps d'execució és lineal. Depenent de l'execució podem trobar-nos algun pic, ja que, el mateix algoritme pot tenir més dificultat a l'hora de processar els nombres peró en general es comporta de manera lineal. 
+
+### 2--b: A partir del programa anterior, feu-ne un altre que a part de calcular i mostrar el MCD faci el mateix amb les constants de la identitat de Bézoud. Comproveu (taula) com creix el seu cost conforme creix el nombre de dígits dels valors
+
+*L'algoritme per el càlcul de la identitat de Bézoud es troba al fitxer bezoud.py*
+
+En aquest cas seguim el mateix procediment que en el cas anterior. La teoria marca que el comportament hauria de ser el mateix degut a que només s'incorporen algunes operacions a dins de l'algoritme d'euclides peró que no es modifica el seu nombre de loops.
+
+**Veiem execucions per testejar l'algoritme**
+
+Utilitzem els mateixos valors que en l'apartat anterior.
+
+```python3
+from bezoud import bezoud
+from bezoud import print_bezoud_result
+
+r, ina, inb, qact, pact = bezoud(48, 150)
+print_bezoud_result(r, ina, inb, qact, pact)
+
+r, ina, inb, qact, pact = bezoud(150, 48)
+print_bezoud_result(r, ina, inb, qact, pact)
+
+r, ina, inb, qact, pact = bezoud(405, 128)
+print_bezoud_result(r, ina, inb, qact, pact)
+
+r, ina, inb, qact, pact = bezoud(450, 360)
+print_bezoud_result(r, ina, inb, qact, pact)
+
+r, ina, inb, qact, pact = bezoud(30, 20)
+print_bezoud_result(r, ina, inb, qact, pact)
+
+```
+
+Veiem que l'algoritme respon bé a les diferents execucions... 
+
+**Testegem el comportament de l'algoritme amb nombres molt grans** 
+
+Es realitza el mateix funcionament que en l'apartat anterior, es generen de manera aleatòria 25 nombres molt grans de 1000 xifres fins a 50000 xifres. Hi ha un increment de 2000 xifres entre valors. 
+
+```{python3}
+
+size = []
+times = []
+
+i = 1000
+counter = 0
+while i < 50000: 
+
+    # Generem dos nombres aleatoris amb llargada i
+    a = generateRandomValue(i)
+    b = generateRandomValue(i)
+
+    # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+    start = time.time()
+    bezoud(a, b)
+    
+    elapsed_time = time.time() - start
+    size.append(i)
+    times.append(elapsed_time)
+
+    i += 2000
+```
+
+Veiem el següent gràfic per estudiar el comportament de la complexitat. 
+
+```{python3}
+plt.plot(size, times, label='linear')
+plt.legend()
+plt.show()
+```
+
+Com podem observar no hi ha sorpreses, el càlcul de la identitat de Bézoud no afegeix complexitat extra, simplement afegeix alguna operació dins del bucle per poder reatlizar un control de les diferents variables que s'han de mantenir a l'hora d'obtenir els resultats. 
+
+### 2-c: Implementeu el test de primalitat que teniu a la diapo 12. Comproveu (taula) com creix el seu cost conforme creix el nombre de dígits del valor.
+
+*El test de primalitat està implementat al fitxer primer.py*
+
+Comprovem directament el valor del temps de càlcul per diferents valors aleatòris generats. Amb aquest algoritme tenim una limitació en el cas del nombre de bytes, i és que el mateix math.sqrt() que s'utilitza per cercar l'arrel del nombre no admet nombres amb més de 300 xifres. En aquest cas el que es fa és generar nombres aleatoris de 1 a 7 xifres, un cop el nombre és generat es cerca el següent primer i es realitza el test de primalitat. 
+
+
+```{python3}
+from utils import getNextPrime
+from primer import primer
+from utils import generateRandomValue
+
+size = []
+times = []
+i = 1
+while i <= 7:
+    a = generateRandomValue(i)
+    # Obtenim el següent nombre primer de i xifres
+    a = getNextPrime(a)
+    # Un cop sé que és primer calcule què trigo en verificar-ho
+    start = time.time()
+    primerR = primer(a)
+    elapsed_time = time.time() - start
+    size.append(i)
+    times.append(elapsed_time)
+    i+=1
+
+plt.plot(size, times, label='linear')
+plt.legend()
+plt.show()
+```
+
+La complexitat de l'algoritme és polinòmic peró si executem el gràfic veiem que en nombre de bytes pot tendir a l'exponencialitat. El problema d'aquest algoritme és que hi ha maneres més econòmiques en complexitat que es poden realitzar com a test de primalitat. L'exponencialitat en temps d'execució fa que només es puguin generar 7 valors, ja que un valor de 8 xifres ja no l'he vist acabar.
+
+### 2-d: Implementeu ara un test de primalitat basat al petit teorema de Fermat, indicant si el nombre entrat és primer, no primer de Carmichael, o no primer ni de Carmichael. Feu la mateixa comprovació del cost feta als apartats anteriors.
+
+*Podem trobar l'algoritme basat en el petit teorema de fermat al fitxer utils.py sota el nom esPrimer, el de Carmichael al fitxer carmichael.py i la potència modular al fitxer utils.py sota el nom potencia_modular_eficient*
+
+Per realitzar aquest exercici es realitzarà el mateix tractament que en l'exercici anterior. S'utilitza el petit teorema de fermat per comprovar la primalitat del nombre peró també s'utilitzen les propietats de coprimaritat entre dos nombres i la cerca dels factors primers per poder comprovar si un nombre és de Carmichael o no. 
+
+Utilitzem la potència modular per comprovar si un nombre és primer. 
+
+```{python3}
+from utils import esPrimer
+
+size = []
+times = []
+i = 1
+while i <= 7:
+    a = generateRandomValue(i)
+    # Obtenim el següent nombre primer de i xifres
+    a = getNextPrime(a)
+    # Un cop sé que és primer calcule què trigo en verificar-ho
+    start = time.time()
+    primerR = esPrimer(a)
+    elapsed_time = time.time() - start
+    if primerR:
+        size.append(i)
+        times.append(elapsed_time)
+    i+=1
+
+plt.plot(size, times, label='linear')
+plt.legend()
+plt.show()
+```
+
+En el cas del test de carmichael, s'utilitza el petit teorema de fermat com a condició per comprovar si el nombre pot ser o no de carmichael. En aquest cas i degut a que trobar valors grans de carmichael és tant estadísticament complicat, el que farem serà generar els nombres de carmichael de 1 a 16000  (que n'hi ha pocs) i llençar el test per aquests numeros. No serà fàcil analitzar el temps que es triga a comprovar si un nombre és de carmichael ja que tindrem poques dades en funció del nombre de xifres, peró intentarem fer-nos-en una idea. 
+
+```{python3}
+size = []
+times = []
+
+i = 1
+while i < 16000: 
+    isCarmichael = esCarmichael(i)
+    if isCarmichael: 
+        print(i)
+        start = time.time()
+        esCarmichael(i)
+        elapsed_time = time.time() - start
+
+        size.append(i)
+        times.append(elapsed_time)
+    i += 1
+
+plt.plot(size, times, label='linear')
+plt.legend()
+plt.show()
+```
+
+En aquest cas a la part inferior del gràfic hi tenim el valor del nombre que s'ha comprovat. 
+
+### 2-e: Implementeu el programa que descompon un valor positiu en factors primers (diapo 16). Feu la mateixa comprovació del cost feta als apartats anteriors.
+
+Realitzem la descomposició en factors primers 
+
+
+
