@@ -99,10 +99,11 @@ def fermat():
     size = []
     times = []
     i = 1
-    while i <= 8:
+    while i <= 6:
         a = generateRandomValue(i)
         # Obtenim el següent nombre primer de i xifres
         a = getNextPrime(a)
+        print(a)
         # Un cop sé que és primer calcule què trigo en verificar-ho
         start = time.time()
         primerR = esPrimer(a)
@@ -145,6 +146,7 @@ def test_factors_primers():
     i = 10
     while i < 100: 
         a = generateRandomValue(i)
+        print(a)
         start = time.time()
         factors_primers(a)
         elapsed_time = time.time() - start
@@ -156,4 +158,68 @@ def test_factors_primers():
     plt.legend()
     plt.show()
 
-test_factors_primers()
+
+def test_potencia():
+    from utils import potencia_modular_eficient
+
+    size = []
+    times = []
+
+    # Fixem el valor de l'exponent a un nombre de 100 dígits
+    a = generateRandomValue(10)
+
+    i = 1
+    while i < 300: 
+
+        # Generem nombre aleatori amb llargada i
+        
+        base = generateRandomValue(i)
+        p = generateRandomValue(i)
+        print("Processant operacio -> " + str(base) + "^" + str(a) + "(mod " + str(p) + ")")
+        # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+        start = time.time()
+        potencia_modular_eficient(base, a, p)
+        elapsed_time = time.time() - start
+
+        size.append(i)
+        times.append(elapsed_time)
+
+        i += 1
+
+    plt.plot(size, times, label='linear')
+    plt.legend()
+    plt.show()
+
+def test_log_discret():
+    from modular import log_discret
+
+    size = []
+    times = []
+
+    # Fixem els valors de la base i del nombre a 3 xifres    
+    base = generateRandomValue(3)
+    p = generateRandomValue(3)
+
+    i = 1
+    while i < 300: 
+
+        # Generem nombre aleatori amb llargada i
+        
+        base = generateRandomValue(i)
+        a = generateRandomValue(i)
+        print("Processant operacio -> " + str(base) + "^" + str(a) + "(mod " + str(p) + ")")
+        # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+        start = time.time()
+        log_discret(base, a, p)
+        elapsed_time = time.time() - start
+
+        size.append(i)
+        times.append(elapsed_time)
+
+        i += 1
+
+    plt.plot(size, times, label='linear')
+    plt.legend()
+    plt.show()
+
+test_log_discret()

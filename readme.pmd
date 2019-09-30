@@ -21,7 +21,6 @@ import os
 import sys
 sys.path.append(os.getcwd())
 import time
-import matplotlib.pyplot as plt
 import numpy as np
 ```
 
@@ -56,6 +55,7 @@ print(euclides(30, 20))
 Seguim per estudiar el cost en funció del nombre de bytes dels valors. 
 
 ```{python3}
+import matplotlib.pyplot as plt
 size = []
 times = []
 
@@ -66,7 +66,7 @@ while i < 50000:
     # Generem dos nombres aleatoris amb llargada i
     a = generateRandomValue(i)
     b = generateRandomValue(i)
-
+    print("Processant nombres -> " + str(a) + " \n i -> " + str(b))
     # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
     start = time.time()
     euclides(a, b)
@@ -76,15 +76,12 @@ while i < 50000:
     times.append(elapsed_time)
 
     i += 2000
-```
 
-Generem 25 valors d'entre 1000 a 50000 nombres escalant 2000 xifres per cada valor. Generem el gràfic amb els valors esmentats i els temps de càlcul en funció del nombre de xifres dels valors generats. A la part esquerra dels gràfic hi trobem el temps d'execució en segons mentre que a la part inferior el nombre de xifres que tenen els valors que se li passen a la funció euclides. 
-
-```{python3}
 plt.plot(size, times, label='linear')
 plt.legend()
 plt.show()
 ```
+Generem 25 valors d'entre 1000 a 50000 nombres escalant 2000 xifres per cada valor. Generem el gràfic amb els valors esmentats i els temps de càlcul en funció del nombre de xifres dels valors generats. A la part esquerra dels gràfic hi trobem el temps d'execució en segons mentre que a la part inferior el nombre de xifres que tenen els valors que se li passen a la funció euclides. 
 
 Podem veure com el comportament en funció del nombre de dígits del temps d'execució és lineal. Depenent de l'execució podem trobar-nos algun pic, ja que, el mateix algoritme pot tenir més dificultat a l'hora de processar els nombres peró en general es comporta de manera lineal. 
 
@@ -126,7 +123,7 @@ Veiem que l'algoritme respon bé a les diferents execucions...
 Es realitza el mateix funcionament que en l'apartat anterior, es generen de manera aleatòria 25 nombres molt grans de 1000 xifres fins a 50000 xifres. Hi ha un increment de 2000 xifres entre valors. 
 
 ```{python3}
-
+import matplotlib.pyplot as plt2
 size = []
 times = []
 
@@ -139,23 +136,21 @@ while i < 50000:
     b = generateRandomValue(i)
 
     # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+    print("Processant nombres -> " + str(a) + " \n i -> " + str(b))
     start = time.time()
     bezoud(a, b)
-    
     elapsed_time = time.time() - start
     size.append(i)
     times.append(elapsed_time)
 
     i += 2000
+
+plt2.plot(size, times, label='linear')
+plt2.legend()
+plt2.show()
 ```
 
 Veiem el següent gràfic per estudiar el comportament de la complexitat. 
-
-```{python3}
-plt.plot(size, times, label='linear')
-plt.legend()
-plt.show()
-```
 
 Com podem observar no hi ha sorpreses, el càlcul de la identitat de Bézoud no afegeix complexitat extra, simplement afegeix alguna operació dins del bucle per poder reatlizar un control de les diferents variables que s'han de mantenir a l'hora d'obtenir els resultats. 
 
@@ -170,6 +165,7 @@ Comprovem directament el valor del temps de càlcul per diferents valors aleatò
 from utils import getNextPrime
 from primer import primer
 from utils import generateRandomValue
+import matplotlib.pyplot as plt3
 
 size = []
 times = []
@@ -179,6 +175,7 @@ while i <= 7:
     # Obtenim el següent nombre primer de i xifres
     a = getNextPrime(a)
     # Un cop sé que és primer calcule què trigo en verificar-ho
+    print("Processant nombre -> " + str(a))
     start = time.time()
     primerR = primer(a)
     elapsed_time = time.time() - start
@@ -186,9 +183,9 @@ while i <= 7:
     times.append(elapsed_time)
     i+=1
 
-plt.plot(size, times, label='linear')
-plt.legend()
-plt.show()
+plt3.plot(size, times, label='linear')
+plt3.legend()
+plt3.show()
 ```
 
 La complexitat de l'algoritme és polinòmic peró si executem el gràfic veiem que en nombre de bytes pot tendir a l'exponencialitat. El problema d'aquest algoritme és que hi ha maneres més econòmiques en complexitat que es poden realitzar com a test de primalitat. L'exponencialitat en temps d'execució fa que només es puguin generar 7 valors, ja que un valor de 8 xifres ja no l'he vist acabar.
@@ -202,6 +199,7 @@ Per realitzar aquest exercici es realitzarà el mateix tractament que en l'exerc
 Utilitzem la potència modular per comprovar si un nombre és primer. 
 
 ```{python3}
+import matplotlib.pyplot as plt4
 from utils import esPrimer
 
 size = []
@@ -212,6 +210,7 @@ while i <= 7:
     # Obtenim el següent nombre primer de i xifres
     a = getNextPrime(a)
     # Un cop sé que és primer calcule què trigo en verificar-ho
+    print("Processant nombre -> " + str(a))
     start = time.time()
     primerR = esPrimer(a)
     elapsed_time = time.time() - start
@@ -220,14 +219,17 @@ while i <= 7:
         times.append(elapsed_time)
     i+=1
 
-plt.plot(size, times, label='linear')
-plt.legend()
-plt.show()
+plt4.plot(size, times, label='linear')
+plt4.legend()
+plt4.show()
 ```
 
 En el cas del test de carmichael, s'utilitza el petit teorema de fermat com a condició per comprovar si el nombre pot ser o no de carmichael. En aquest cas i degut a que trobar valors grans de carmichael és tant estadísticament complicat, el que farem serà generar els nombres de carmichael de 1 a 16000  (que n'hi ha pocs) i llençar el test per aquests numeros. No serà fàcil analitzar el temps que es triga a comprovar si un nombre és de carmichael ja que tindrem poques dades en funció del nombre de xifres, peró intentarem fer-nos-en una idea. 
 
 ```{python3}
+import matplotlib.pyplot as plt5
+from carmichael import esCarmichael
+
 size = []
 times = []
 
@@ -235,7 +237,7 @@ i = 1
 while i < 16000: 
     isCarmichael = esCarmichael(i)
     if isCarmichael: 
-        print(i)
+        print("Processant nombre -> " + str(i))
         start = time.time()
         esCarmichael(i)
         elapsed_time = time.time() - start
@@ -244,16 +246,190 @@ while i < 16000:
         times.append(elapsed_time)
     i += 1
 
-plt.plot(size, times, label='linear')
-plt.legend()
-plt.show()
+plt5.plot(size, times, label='linear')
+plt5.legend()
+plt5.show()
 ```
 
 En aquest cas a la part inferior del gràfic hi tenim el valor del nombre que s'ha comprovat. 
 
 ### 2-e: Implementeu el programa que descompon un valor positiu en factors primers (diapo 16). Feu la mateixa comprovació del cost feta als apartats anteriors.
 
-Realitzem la descomposició en factors primers 
+Realitzem la descomposició en factors primers, en aquest cas pot passar que la complexitat no es vegi afectada en quant al nombre de bytes degut a què la factorització d'un nombre més llarg pot prendre menys passos que la factorització d'un nombre curt. Cercar els pitjors dels casos per a la simulació pot ser un problema complicat. 
+
+```{python3}
+import matplotlib.pyplot as plt6
+from utils import factors_primers
+size = []
+times = []
+
+i = 10
+while i < 100: 
+    a = generateRandomValue(i)
+    print("Processant nombre -> " + str(a))
+    start = time.time()
+    factors_primers(a)
+    elapsed_time = time.time() - start
+    i += 10
+    size.append(i)
+    times.append(elapsed_time)
+
+plt6.plot(size, times, label='linear')
+plt6.legend()
+plt6.show()
+```
+
+### 2-f: Implementeu un programa que, donat un enter positiu n i un valor enter k, determini si k és inversible a Z/n i, si ho és, calculi el seu invers modular. Feu la mateixa comprovació del cost feta als apartats anteriors.
+
+Per qué un nombre sigui inversible a Z/n s'ha de complir que el nombre k, i la dimensió n, han de ser coprimers (euclides(k, n) == 1). També en cas que un nombre sigui inversible a Z/n la seva inversió ens la dóna el teorema de bézoud peró s'ha de passar a Z/n.
+
+El gràfic de la funció invers_modular és el mateix exactament que el gràfic de la funció bezoud() que al mateix temps ha de ser molt similar a la funció euclides(). 
+
+**Veiem el gràfic de bèzoud en l'apartat 2-b**
+
+### 2-g: Implementeu un programa que calculi l'exponenciació modular a Z/n, donat n com a input (a més de la base i l’exponent, és clar). Feu la mateixa comprovació del cost feta als apartats anteriors (aquí podeu augmentar la mida de n, de la base i de l’exponent)
+
+En el cas de l'exponenciació a Z/n s'han de tenir en compte vàries variables. Tenim la base, l'exponent i el nombre que l'anomenarem p. Per testejar la complexitat en nombre de bits per aquest algoritme cal fixar-nos que només cal augmentar l'exponent. La gràcia està en veure que sempre es treballa en nombres de mòdul p, on p és la dimensió. 
+
+Genereem doncs nombre de augmentant el nombre de xifres l'exponent i anem provant com responen fixant primerament la base també a un nombre aleatori. 
+
+```{python3}
+import matplotlib.pyplot as plt7
+from utils import potencia_modular_eficient
+
+size = []
+times = []
+
+# Fixem la base a un nombre de 3 xifres
+base = generateRandomValue(3)
+# Fixem la dimensió
+p = generateRandomValue(3)
+
+i = 1
+while i < 300: 
+
+    # Generem nombre aleatori amb llargada i
+    a = generateRandomValue(i)
+    # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+    start = time.time()
+    potencia_modular_eficient(base, a, p)
+    elapsed_time = time.time() - start
+
+    size.append(i)
+    times.append(elapsed_time)
+
+    i += 1
+
+plt7.plot(size, times, label='linear')
+plt7.legend()
+plt7.show()
+```
+
+En aquest cas podem veure  que fixant la base i la dimensió l'exponent té una complexitat polinòmica en funció del nombre de bits de l'exponent. En el següent gràfic provem d'augmentar la base també i veurem que es comporten de manera molt similar. 
+
+```{python3}
+import matplotlib.pyplot as plt8
+from utils import potencia_modular_eficient
+
+size = []
+times = []
+
+# Fixem la dimensió
+p = generateRandomValue(3)
+
+i = 1
+while i < 300: 
+
+    # Generem nombre aleatori amb llargada i
+    a = generateRandomValue(i)
+    base = generateRandomValue(i)
+    # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+    start = time.time()
+    potencia_modular_eficient(base, a, p)
+    elapsed_time = time.time() - start
+
+    size.append(i)
+    times.append(elapsed_time)
+
+    i += 1
+
+plt8.plot(size, times, label='linear')
+plt8.legend()
+plt8.show()
+```
+
+Finalment incrementem les 3 variables en nombre de bits a la vegada per cada iteració per veure com es comporten i veiem que la gràfica surt molt similar que les dues anteriors. 
+
+```{python3}
+import matplotlib.pyplot as plt9
+from utils import potencia_modular_eficient
+
+size = []
+times = []
+
+i = 1
+while i < 300: 
+
+    # Generem nombre aleatori amb llargada i
+    a = generateRandomValue(i)
+    base = generateRandomValue(i)
+    p = generateRandomValue(i)
+    # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+    start = time.time()
+    potencia_modular_eficient(base, a, p)
+    elapsed_time = time.time() - start
+
+    size.append(i)
+    times.append(elapsed_time)
+
+    i += 1
+
+plt9.plot(size, times, label='linear')
+plt9.legend()
+plt9.show()
+```
+
+Finalment fixem l'exponent a un nombre de per exemple 3 dígits i veiem com es comporta l'algoritme de manera molt més lineal.
+
+```{python3}
+import matplotlib.pyplot as plt10
+from utils import potencia_modular_eficient
+
+size = []
+times = []
+
+# Fixem el valor de l'exponent a un nombre de 100 dígits
+a = generateRandomValue(10)
+
+i = 1
+while i < 300: 
+
+    # Generem nombre aleatori amb llargada i
+    
+    base = generateRandomValue(i)
+    p = generateRandomValue(i)
+    # Generem una variable on hi desem el codi que executarem per poder calcular el temps. 
+    start = time.time()
+    potencia_modular_eficient(base, a, p)
+    elapsed_time = time.time() - start
+
+    size.append(i)
+    times.append(elapsed_time)
+
+    i += 1
+
+plt10.plot(size, times, label='linear')
+plt10.legend()
+plt10.show()
+```
+
+### 2-h: Feu un programa que calculi el logaritme discret a Z/n, donat n com a input ( a més de la base i l’argument, és clar). Feu la mateixa comprovació del cost feta als apartats anteriors (aquí podeu augmentar la mida de n, de la base i de l’argument)
+
+En aquest cas la complexitat de l'algoritme no només és exponencial en nombre de bits sinó que a més a més el problema conté indecidibilitat. Anem probant aviam si hi ha un nombre que utilitzant la potència modular eficient pugui calcular el seu logaritme discret passant l'exponent de i a + infinit. 
+
+El fet que a més a més pot passar que no es pugui calcular el logaritme discret, és a dir que pot ser que no en tingui fa que el problema sigui indecidible dins de l'univers dels nombres naturals. 
+
+
 
 
 
